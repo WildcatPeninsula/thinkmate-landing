@@ -137,4 +137,48 @@ section{padding:40px 16px}
 </footer>
 
 </body>
+
+<!-- ThinkMate WTP Survey -->
+<div id="thinkmate-wtp" style="position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.85);color:#fff;padding:16px 24px;z-index:9999;font-family:'Segoe UI',system-ui,sans-serif;transform:translateY(100%);transition:transform 0.4s ease;">
+  <button id="wtp-open" onclick="document.getElementById('thinkmate-wtp').style.transform='translateY(0)'" style="position:fixed;bottom:20px;left:20px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:24px;cursor:pointer;z-index:9998;box-shadow:0 4px 16px rgba(102,126,234,0.4);">💬</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <strong style="font-size:14px;">💬 Quick survey: What would you pay for an AI tutor that adapts to your child's level?</strong>
+    <button onclick="document.getElementById('thinkmate-wtp').style.transform='translateY(100%)'" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
+  </div>
+  <div id="wtp-options" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+    <button onclick="submitWTP(4.99)" class="wtp-btn" style="padding:8px 16px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;cursor:pointer;">$4.99</button>
+    <button onclick="submitWTP(7.99)" class="wtp-btn" style="padding:8px 16px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;cursor:pointer;">$7.99</button>
+    <button onclick="submitWTP(9.99)" class="wtp-btn" style="padding:8px 16px;background:#fff;color:#667eea;border:none;border-radius:6px;cursor:pointer;font-weight:600;">$9.99</button>
+    <button onclick="submitWTP(12.99)" class="wtp-btn" style="padding:8px 16px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;cursor:pointer;">$12.99</button>
+    <button onclick="submitWTP(14.99)" class="wtp-btn" style="padding:8px 16px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;cursor:pointer;">$14.99+</button>
+    <button onclick="submitWTP(0)" class="wtp-btn" style="padding:8px 16px;background:none;border:1px solid rgba(255,255,255,0.2);color:#aaa;border-radius:6px;cursor:pointer;">Not interested</button>
+  </div>
+  <div id="wtp-thanks" style="display:none;color:#a0ffa0;margin-top:8px;">Thanks! Your feedback helps.</div>
+</div>
+<script>
+// Show survey after 15 seconds on page
+var wtpShown = localStorage.getItem('thinkmate_wtp_shown');
+if(!wtpShown){
+  setTimeout(function(){
+    document.getElementById('thinkmate-wtp').style.transform='translateY(0)';
+  }, 15000);
+}
+function submitWTP(amount){
+  document.getElementById('wtp-options').style.display='none';
+  document.getElementById('wtp-thanks').style.display='block';
+  var responses = JSON.parse(localStorage.getItem('thinkmate_wtp') || '[]');
+  responses.push({date:new Date().toISOString(),amount:amount,session:Date.now()});
+  localStorage.setItem('thinkmate_wtp',JSON.stringify(responses));
+  localStorage.setItem('thinkmate_wtp_shown','true');
+  setTimeout(function(){
+    document.getElementById('thinkmate-wtp').style.transform='translateY(100%)';
+  },3000);
+}
+// Auto-expand button after 30s if not interacted
+setTimeout(function(){
+  var btn = document.getElementById('wtp-open');
+  if(btn) btn.style.transform='scale(1.1)';
+}, 30000);
+</script>
+
 </html>
