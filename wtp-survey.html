@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024">
+<title>2-Min Pricing Survey — ThinkMate | Wildcat Peninsula</title>
+<meta name="description" content="Help us price an AI tutoring tool for kids. 6 questions, 2 minutes. No email needed.">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#333;line-height:1.6;background:#f0f0f5}
+.container{max-width:680px;margin:0 auto;padding:40px 20px}
+header{text-align:center;padding:30px 0 20px}
+header h1{font-size:clamp(1.5rem,4vw,2rem);color:#4a3f8a;margin-bottom:8px}
+header p{color:#666;font-size:.95rem}
+.progress{height:6px;background:#ddd;border-radius:3px;margin:16px 0 30px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:3px;transition:width .4s ease}
+.step{display:none;background:#fff;border-radius:12px;padding:30px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:20px}
+.step.active{display:block}
+.step h2{font-size:1.2rem;color:#4a3f8a;margin-bottom:6px}
+.step .q-text{font-size:1.05rem;margin-bottom:20px;color:#444}
+.step .q-note{font-size:.82rem;color:#888;margin-bottom:16px}
+.option-btn{display:block;width:100%;text-align:left;padding:14px 18px;margin-bottom:8px;border:2px solid #e0e0e0;border-radius:8px;background:#fff;font-size:.95rem;cursor:pointer;transition:all .15s;color:#333}
+.option-btn:hover{border-color:#667eea;background:#f5f3ff}
+.option-btn.selected{border-color:#667eea;background:#ede8ff;color:#4a3f8a;font-weight:600}
+.checkbox-option{display:flex;align-items:center;gap:10px}
+.checkbox-option input[type="checkbox"]{width:18px;height:18px;accent-color:#667eea;cursor:pointer}
+.checkbox-option label{cursor:pointer;flex:1}
+.option-btn input[type="radio"]{margin-right:10px;accent-color:#667eea}
+textarea{width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-size:.95rem;font-family:inherit;resize:vertical;min-height:80px;transition:border-color .15s}
+textarea:focus{border-color:#667eea;outline:none}
+.nav-row{display:flex;justify-content:space-between;margin-top:20px}
+.nav-btn{padding:10px 28px;border:none;border-radius:6px;font-size:.95rem;cursor:pointer;font-weight:600;transition:all .15s}
+.btn-next{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.btn-next:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(102,126,234,.35)}
+.btn-next:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-back{background:#f0f0f5;color:#666}
+.btn-back:hover{background:#e0e0e8}
+.completed{text-align:center;background:#fff;border-radius:12px;padding:50px 30px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.completed h2{font-size:1.5rem;color:#4a3f8a;margin-bottom:12px}
+.completed p{color:#666;margin-bottom:8px}
+.completed .thanks{font-size:1.1rem;color:#4a3f8a;font-weight:600;margin-top:20px}
+.completed a{color:#667eea;text-decoration:none}
+.completed a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Help Us Price ThinkMate</h1>
+<p>6 questions. Takes 2 minutes. No email or signup required.</p>
+</header>
+<div class="progress"><div class="progress-bar" id="progressBar" style="width:16.6%"></div></div>
+
+<!-- Q1: Parent Status -->
+<div class="step active" data-step="1">
+<h2>Question 1 of 6</h2>
+<p class="q-text">What best describes your situation?</p>
+<button class="option-btn" onclick="selectRadio(1,this,'parent-of-elementary')"><input type="radio" name="q1"> Parent of a child ages 6-12</button>
+<button class="option-btn" onclick="selectRadio(1,this,'parent-of-older')"><input type="radio" name="q1"> Parent of a child 13+</button>
+<button class="option-btn" onclick="selectRadio(1,this,'homeschool')"><input type="radio" name="q1"> Homeschooling a child ages 6-12</button>
+<button class="option-btn" onclick="selectRadio(1,this,'teacher')"><input type="radio" name="q1"> Teacher or tutor (looking for tools)</button>
+<button class="option-btn" onclick="selectRadio(1,this,'other')"><input type="radio" name="q1"> Other / Not a parent or educator</button>
+<div class="nav-row">
+<button class="nav-btn btn-next" id="next1" disabled onclick="goTo(2)">Next →</button>
+</div>
+</div>
+
+<!-- Q2a: Current Spend -->
+<div class="step" data-step="2">
+<h2>Question 2a of 6</h2>
+<p class="q-text">How much do you currently spend per month on tutoring or educational apps for kids?</p>
+<button class="option-btn" onclick="selectRadio(2a,this,'zero')"><input type="radio" name="q2a"> $0 (no tutoring spend)</button>
+<button class="option-btn" onclick="selectRadio(2a,this,'1-25')"><input type="radio" name="q2a"> $1–$25</button>
+<button class="option-btn" onclick="selectRadio(2a,this,'26-50')"><input type="radio" name="q2a"> $26–$50</button>
+<button class="option-btn" onclick="selectRadio(2a,this,'51-100')"><input type="radio" name="q2a"> $51–$100</button>
+<button class="option-btn" onclick="selectRadio(2a,this,'100+')"><input type="radio" name="q2a"> $100+</button>
+<div class="nav-row">
+<button class="nav-btn btn-back" onclick="goTo(1)">← Back</button>
+<button class="nav-btn btn-next" id="next2a" disabled onclick="goTo(3)">Next →</button>
+</div>
+</div>
+
+<!-- Q2b: Preferred Price -->
+<div class="step" data-step="3">
+<h2>Question 2b of 6</h2>
+<p class="q-text">If ThinkMate were available as a one-time purchase (no subscription), what price would feel fair?</p>
+<p class="q-note">ThinkMate covers math, reading, and science for ages 8-12.</p>
+<button class="option-btn" onclick="selectRadio(2b,this,'under10')"><input type="radio" name="q2b"> Under $10</button>
+<button class="option-btn" onclick="selectRadio(2b,this,'10-19')"><input type="radio" name="q2b"> $10–$19</button>
+<button class="option-btn" onclick="selectRadio(2b,this,'20-29')"><input type="radio" name="q2b"> $20–$29</button>
+<button class="option-btn" onclick="selectRadio(2b,this,'30-49')"><input type="radio" name="q2b"> $30–$49</button>
+<button class="option-btn" onclick="selectRadio(2b,this,'50+')"><input type="radio" name="q2b"> $50+</button>
+<div class="nav-row">
+<button class="nav-btn btn-back" onclick="goTo(2a)">← Back</button>
+<button class="nav-btn btn-next" id="next2b" disabled onclick="goTo(4)">Next →</button>
+</div>
+</div>
+
+<!-- Q3: Pricing Model -->
+<div class="step" data-step="4">
+<h2>Question 3 of 6</h2>
+<p class="q-text">Which pricing model would you prefer?</p>
+<button class="option-btn" onclick="selectRadio(3,this,'one-time')"><input type="radio" name="q3"> One-time payment (pay once, use forever)</button>
+<button class="option-btn" onclick="selectRadio(3,this,'monthly')"><input type="radio" name="q3"> Monthly subscription</button>
+<button class="option-btn" onclick="selectRadio(3,this,'annual')"><input type="radio" name="q3"> Annual subscription (pay once per year)</button>
+<button class="option-btn" onclick="selectRadio(3,this,'pwYW')"><input type="radio" name="q3"> Pay-what-you-want</button>
+<div class="nav-row">
+<button class="nav-btn btn-back" onclick="goTo(2b)">← Back</button>
+<button class="nav-btn btn-next" id="next3" disabled onclick="goTo(5)">Next →</button>
+</div>
+</div>
+
+<!-- Q4: Competitor Awareness -->
+<div class="step" data-step="5">
+<h2>Question 4 of 6</h2>
+<p class="q-text">Have you heard of any of these tutoring tools before? (Check all that apply)</p>
+<p class="option-btn" onclick="toggleCheck(this)"><input type="checkbox" name="q4" value="khan"> Khan Academy</p>
+<p class="option-btn" onclick="toggleCheck(this)"><input type="checkbox" name="q4" value="ixl"> IXL</p>
+<p class="option-btn" onclick="toggleCheck(this)"><input type="checkbox" name="q4" value="epic"> Epic!</p>
+<p class="option-btn" onclick="toggleCheck(this)"><input type="checkbox" name="q4" value="photomath"> Photomath</p>
+<p class="option-btn" onclick="toggleCheck(this)"><input type="checkbox" name="q4" value="curiosity"> Curiosity</p>
+<p class="option-btn" onclick="toggleCheck(this)"><input type="checkbox" name="q4" value="none"> None of the above</p>
+<div class="nav-row">
+<button class="nav-btn btn-back" onclick="goTo(3)">← Back</button>
+<button class="nav-btn btn-next" id="next4" onclick="goTo(6)">Next →</button>
+</div>
+</div>
+
+<!-- Q5: Purchase Priority -->
+<div class="step" data-step="6">
+<h2>Question 5 of 6</h2>
+<p class="q-text">How high is tutoring on your priority list right now?</p>
+<button class="option-btn" onclick="selectRadio(5,this,'top')"><input type="radio" name="q5"> Top priority — actively looking for help now</button>
+<button class="option-btn" onclick="selectRadio(5,this,'high')"><input type="radio" name="q5"> High priority — considering within 3 months</button>
+<button class="option-btn" onclick="selectRadio(5,this,'medium')"><input type="radio" name="q5"> Medium priority — might look later</button>
+<button class="option-btn" onclick="selectRadio(5,this,'low')"><input type="radio" name="q5"> Low priority — not a concern</button>
+<button class="option-btn" onclick="selectRadio(5,this,'not-urgent')"><input type="radio" name="q5"> Not urgent at all</button>
+<div class="nav-row">
+<button class="nav-btn btn-back" onclick="goTo(4)">← Back</button>
+<button class="nav-btn btn-next" id="next5" disabled onclick="goTo(7)">Next →</button>
+</div>
+</div>
+
+<!-- Q6: Open-ended -->
+<div class="step" data-step="7">
+<h2>Question 6 of 6</h2>
+<p class="q-text">What's the biggest pain point you've had with tutoring or educational apps for your kids?</p>
+<p class="q-note">This is optional but really helpful.</p>
+<textarea id="q6" placeholder="Share whatever comes to mind..."></textarea>
+<div class="nav-row">
+<button class="nav-btn btn-back" onclick="goTo(5)">← Back</button>
+<button class="nav-btn btn-next" onclick="submitSurvey()">Submit Survey ✓</button>
+</div>
+</div>
+
+<!-- Completed -->
+<div class="completed" id="completed" style="display:none">
+<h2>Thank You!</h2>
+<p>Your feedback helps us build something actually worth paying for.</p>
+<p class="thanks">Want to try ThinkMate free?</p>
+<p><a href="https://44a37d23.ai-tutor-mvp.pages.dev">Try ThinkMate Free Trial →</a></p>
+<p style="margin-top:16px;font-size:.82rem;color:#999">Results will be published publicly. No personal data collected.</p>
+</div>
+</div>
+
+<script>
+var answers={q1:'',q2a:'',q2b:'',q3:'',q4:[],q5:'',q6:''};
+var currentStep=1;
+var totalSteps=7;
+function selectRadio(qKey,btn,val){
+  var step=btn.closest('.step');
+  step.querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected')});
+  btn.classList.add('selected');
+  btn.querySelector('input[type="radio"]').checked=true;
+  answers[qKey]=val;
+  var nextBtn=step.querySelector('.btn-next');
+  if(nextBtn)nextBtn.disabled=false;
+}
+function toggleCheck(pEl){
+  var cb=pEl.querySelector('input[type="checkbox"]');
+  cb.checked=!cb.checked;
+  if(cb.checked){pEl.classList.add('selected')}else{pEl.classList.remove('selected')}
+  answers.q4=[];
+  document.querySelectorAll('input[name="q4"]:checked').forEach(function(c){answers.q4.push(c.value)});
+}
+function goTo(step){
+  document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active')});
+  var nextStep=document.querySelector('.step[data-step="'+step+'"]');
+  if(nextStep)nextStep.classList.add('active');
+  currentStep=step;
+  document.getElementById('progressBar').style.width=(step/totalSteps*100)+'%';
+}
+function submitSurvey(){
+  answers.q6=document.getElementById('q6').value;
+  localStorage.setItem('thinkmate-wtp',JSON.stringify(answers));
+  document.querySelectorAll('.step').forEach(function(s){s.style.display='none'});
+  document.getElementById('completed').style.display='block';
+  document.querySelector('.progress').style.display='none';
+  var surveyId=Date.now().toString(36)+Math.random().toString(36).substr(2,5);
+  localStorage.setItem('thinkmate-wtp-id',surveyId);
+}
+</script>
+</body>
+</html>
