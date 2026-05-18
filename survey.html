@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Us Build Better AI Tutoring for Kids | Wildcat Peninsula</title>
+<meta name="description" content="10-minute survey for parents. Tell us what you'd pay for an AI tutor that adapts to your child's level. Help shape the future of kids' learning.">
+<meta property="og:title" content="Help Us Build Better AI Tutoring for Kids">
+<meta property="og:description" content="Tell us what you'd pay for an AI tutor. Your answers shape the product.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tutor.wildcatpeninsula.com/survey">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://tutor.wildcatpeninsula.com/survey">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#333;line-height:1.7;background:#fafbfc}
+.container{max-width:680px;margin:0 auto;padding:0 24px}
+.hero{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:64px 24px;text-align:center}
+.hero h1{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:700;margin-bottom:12px;line-height:1.2}
+.hero p{font-size:clamp(1rem,2.5vw,1.15rem);opacity:.92;max-width:520px;margin:0 auto}
+.hero .tag{display:inline-block;margin-top:16px;background:rgba(255,255,255,.15);padding:6px 16px;border-radius:20px;font-size:.85rem}
+section{padding:48px 0}
+.section-white{background:#fff}
+.section-gray{background:#f0f1f5}
+h2{font-size:clamp(1.3rem,3vw,1.7rem);font-weight:700;margin-bottom:16px;color:#2d2d2d}
+h3{font-size:1.1rem;font-weight:600;margin-bottom:8px;color:#2d2d2d}
+p{margin-bottom:12px;font-size:clamp(.95rem,2vw,1.05rem)}
+.form-group{margin-bottom:28px}
+.form-group label{display:block;font-weight:600;margin-bottom:8px;font-size:1.02rem;color:#444}
+.form-group .hint{font-size:.88rem;color:#777;margin-top:4px}
+input[type=text],input[type=email],input[type=number],select,textarea{width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;font-family:inherit;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#667eea}
+textarea{resize:vertical;min-height:80px}
+.price-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:8px}
+.price-btn{padding:16px 12px;text-align:center;border:2px solid #e0e0e0;border-radius:10px;background:#fff;cursor:pointer;font-size:1.05rem;font-weight:600;transition:all .15s;color:#444}
+.price-btn:hover{border-color:#667eea;background:#f8f9ff}
+.price-btn.selected{border-color:#667eea;background:#667eea;color:#fff;box-shadow:0 4px 12px rgba(102,126,234,.3)}
+.price-btn .label{display:block;font-size:.8rem;font-weight:400;opacity:.75;margin-top:2px}
+.choice-options{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.choice-btn{padding:14px 16px;border:2px solid #e0e0e0;border-radius:8px;background:#fff;cursor:pointer;text-align:left;font-size:.98rem;transition:all .15s;color:#444}
+.choice-btn:hover{border-color:#667eea;background:#f8f9ff}
+.choice-btn.selected{border-color:#667eea;background:#667eea;color:#fff}
+.choice-btn .label{display:block;font-size:.8rem;font-weight:400;opacity:.75;margin-top:2px}
+.submit-btn{width:100%;padding:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:10px;font-size:1.1rem;font-weight:600;cursor:pointer;transition:transform .15s,box-shadow .15s;margin-top:12px}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,.35)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.progress-bar{height:4px;background:#e8e8e8;border-radius:2px;margin-bottom:32px;overflow:hidden}
+.progress-bar .fill{height:100%;background:linear-gradient(135deg,#667eea,#764ba2);transition:width .3s ease;border-radius:2px}
+.step{display:none}
+.step.active{display:block}
+.step-indicator{text-align:center;margin-bottom:24px;font-size:.85rem;color:#888}
+.thanks{text-align:center;padding:80px 24px}
+.thanks h2{font-size:2rem;color:#22c55e;margin-bottom:16px}
+.thanks .badge{font-size:3rem;margin-bottom:16px}
+.checklist{max-width:480px;margin:24px auto 0;text-align:left}
+.checklist li{padding:8px 0;font-size:.98rem;color:#555;display:flex;align-items:center;gap:8px}
+.checklist li::before{content:"✓";color:#22c55e;font-weight:700}
+footer{text-align:center;padding:40px 24px;color:#999;font-size:.85rem}
+footer a{color:#667eea}
+@media(max-width:500px){.price-options{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+<h1>Help Us Build Better AI Tutoring for Kids</h1>
+<p>Tell us what you need and what you'd pay for it. Your answers directly shape the product we build.</p>
+<span class="tag">⏱ About 5 minutes · No sign-up required</span>
+</section>
+
+<div class="container">
+<div class="progress-bar"><div class="fill" id="progress" style="width:20%"></div></div>
+
+<!-- Step 1: Parent info -->
+<div class="step active" id="step1">
+<h2>Step 1: About You</h2>
+<div class="form-group">
+<label>1. What's your role?</label>
+<div class="choice-options" data-field="role">
+<div class="choice-btn" data-value="parent">👨‍👩‍👧 Parent of a school-age child<span class="label">This is me</span></div>
+<div class="choice-btn" data-value="homeschool_parent">🏠 Homeschool parent<span class="label">I teach my kids at home</span></div>
+<div class="choice-btn" data-value="tutor">📚 Tutor / educator<span class="label">I help students outside my own family</span></div>
+<div class="choice-btn" data-value="grandparent">👴 Grandparent / caregiver<span class="label">I help raise a child</span></div>
+<div class="choice-btn" data-value="other">🤷 Other<span class="label">Something else</span></div>
+</div>
+</div>
+<div class="form-group">
+<label>2. How old is the child you're looking for tutoring for?</label>
+<select data-field="child_age">
+<option value="">-- select --</option>
+<option value="5-7">Ages 5-7 (K-2nd grade)</option>
+<option value="8-10">Ages 8-10 (3rd-5th grade)</option>
+<option value="11-13">Ages 11-13 (6th-8th grade)</option>
+<option value="14-16">Ages 14-16 (9th-12th grade)</option>
+<option value="multiple">Multiple children at different ages</option>
+</select>
+</div>
+<div class="form-group">
+<label>3. What subjects does your child need help with most?</label>
+<div class="hint">Check all that apply</div>
+<div class="choice-options" data-field="subjects" data-multi="true">
+<div class="choice-btn" data-value="math">📐 Math<span class="label">Arithmetic, algebra, geometry</span></div>
+<div class="choice-btn" data-value="reading">📖 Reading &amp; Writing<span class="label">Comprehension, essay writing</span></div>
+<div class="choice-btn" data-value="science">🔬 Science<span class="label">Biology, chemistry, physics</span></div>
+<div class="choice-btn" data-value="social_studies">🌍 Social Studies<span class="label">History, geography, civics</span></div>
+<div class="choice-btn" data-value="esl">🗣️ ESL / Language<span class="label">English as a second language</span></div>
+</div>
+</div>
+<button class="submit-btn" onclick="nextStep(2)">Continue →</button>
+</div>
+
+<!-- Step 2: Current solutions -->
+<div class="step" id="step2">
+<h2>Step 2: How You Tutor Now</h2>
+<div class="form-group">
+<label>4. How are you currently handling tutoring?</label>
+<div class="choice-options" data-field="current_solution">
+<div class="choice-btn" data-value="self_teaching">Teaching them myself<span class="label">I'm the tutor</span></div>
+<div class="choice-btn" data-value="paid_tutor">Hiring a human tutor<span class="label">$25-80/hr</span></div>
+<div class="choice-btn" data-value="subscription_app">Subscription app<span class="label">Khan Academy, IXL, etc.</span></div>
+<div class="choice-btn" data-value="one_time_app">One-time purchase app<span class="label">Paid $10-30 once</span></div>
+<div class="choice-btn" data-value="school">School resources only<span class="label">Relying on teacher help</span></div>
+<div class="choice-btn" data-value="none">Not currently using anything<span class="label">Looking for solutions</span></div>
+</div>
+</div>
+<div class="form-group">
+<label>5. How much do you currently spend on tutoring per month?</label>
+<div class="price-options" data-field="current_spend">
+<div class="price-btn" data-value="0">$0<span class="label">Free / nothing</span></div>
+<div class="price-btn" data-value="5-15">$5-15<span class="label">Free apps / one-time</span></div>
+<div class="price-btn" data-value="15-30">$15-30<span class="label">One subscription</span></div>
+<div class="price-btn" data-value="30-60">$30-60<span class="label">1-2 subscriptions</span></div>
+<div class="price-btn" data-value="60-100">$60-100<span class="label">Multiple subscriptions</span></div>
+<div class="price-btn" data-value="100+">$100+<span class="label">Human tutor / multiple</span></div>
+</div>
+</div>
+<div class="form-group">
+<label>6. What frustrates you most about current tutoring options?</label>
+<textarea data-field="frustration" placeholder="What don't you like about what you're using now?"></textarea>
+</div>
+<button class="submit-btn" onclick="nextStep(3)">Continue →</button>
+</div>
+
+<!-- Step 3: WTP -->
+<div class="step" id="step3">
+<h2>Step 3: Pricing</h2>
+<div class="form-group">
+<label>7. What is a FAIR price for a one-time purchase AI tutor?</label>
+<div class="hint">Not the cheapest. What feels fair for something that adapts to your child's level in real time?</div>
+<div class="price-options" data-field="fair_price">
+<div class="price-btn" data-value="4.99">$4.99<span class="label">Budget</span></div>
+<div class="price-btn" data-value="9.99">$9.99<span class="label">Sweet spot</span></div>
+<div class="price-btn" data-value="19.99">$19.99<span class="label">I'd pay more for quality</span></div>
+<div class="price-btn" data-value="29.99">$29.99<span class="label">Good deal if it works</span></div>
+<div class="price-btn" data-value="49.99">$49.99<span class="label">Premium pricing</span></div>
+</div>
+</div>
+<div class="form-group">
+<label>8. Would you prefer:</label>
+<div class="choice-options" data-field="pricing_model">
+<div class="choice-btn" data-value="one_time">💰 One-time purchase<span class="label">Pay once, use forever</span></div>
+<div class="choice-btn" data-value="monthly">📅 Monthly subscription<span class="label">$5-15/month while my child needs it</span></div>
+<div class="choice-btn" data-value="both">✅ Either would work<span class="label">Depends on features offered</span></div>
+</div>
+</div>
+<div class="form-group">
+<label>9. How much would you pay for a monthly subscription that includes personalized progress reports and homework help?</label>
+<div class="price-options" data-field="monthly_price">
+<div class="price-btn" data-value="5">$5/mo<span class="label">Basic</span></div>
+<div class="price-btn" data-value="9.99">$9.99/mo<span class="label">Standard</span></div>
+<div class="price-btn" data-value="14.99">$14.99/mo<span class="label">Premium</span></div>
+<div class="price-btn" data-value="19.99">$19.99/mo<span class="label">Full features</span></div>
+<div class="choice-btn" data-value="never" style="border:none;background:transparent;color:#888;cursor:default">I'd never pay monthly</div>
+</div>
+</div>
+<button class="submit-btn" onclick="nextStep(4)">Continue →</button>
+</div>
+
+<!-- Step 4: Priorities -->
+<div class="step" id="step4">
+<h2>Step 4: What Matters Most</h2>
+<div class="form-group">
+<label>10. Rank these features by priority (1 = most important, 5 = least important)</label>
+<div class="hint">Drag to rank. The most important feature goes at the top.</div>
+<div class="choice-options" data-field="priority" data-rank="true">
+<div class="choice-btn" data-value="adaptive_learning">🧠 Adapts to my child's level in real time</div>
+<div class="choice-btn" data-value="parent_dashboard">📊 Progress reports I can actually read</div>
+<div class="choice-btn" data-value="voice">🗣️ Voice interaction (for struggling readers)</div>
+<div class="choice-btn" data-value="curriculum">📋 Aligns with school curriculum</div>
+<div class="choice-btn" data-value="multi_subj">📚 Multiple subjects in one app</div>
+</div>
+</div>
+<div class="form-group">
+<label>11. Would you share results with your child's teacher?</label>
+<div class="choice-options" data-field="teacher_sharing">
+<div class="choice-btn" data-value="yes">Yes<span class="label">That would be helpful</span></div>
+<div class="choice-btn" data-value="maybe">Maybe<span class="label">Depends on privacy</span></div>
+<div class="choice-btn" data-value="no">No<span class="label">We keep that private</span></div>
+</div>
+</div>
+<div class="form-group">
+<label>12. What's the ONE thing you wish your child's tutoring could do?</label>
+<textarea data-field="dream_feature" placeholder="Describe it in a sentence or two..."></textarea>
+</div>
+<button class="submit-btn" onclick="nextStep(5)">Submit My Answers →</button>
+</div>
+
+<!-- Step 5: Thank you -->
+<div class="step" id="step5">
+<div class="thanks">
+<div class="badge">✅</div>
+<h2>Thank you!</h2>
+<p>Your answers help build something parents actually need.</p>
+<div class="checklist">
+<li>📊 Market Report coming soon</li>
+<li>📧 Get the AI Tutor Market Report free when it's done</li>
+<li>🚀 Early access to ThinkMate when it launches</li>
+</div>
+<p style="margin-top:32px;font-size:.9rem;color:#999">Response #<span id="resp_count">000000</span></p>
+<p style="margin-top:24px;font-size:.9rem"><a href="https://tutor.wildcatpeninsula.com" style="color:#667eea">← Back to ThinkMate</a></p>
+</div>
+</div>
+</div>
+
+<footer>
+<p>Built by Wildcat Peninsula · <a href="https://tutor.wildcatpeninsula.com">tutor.wildcatpeninsula.com</a></p>
+<p style="margin-top:4px">Your answers are stored locally. No accounts, no tracking.</p>
+</footer>
+
+<script>
+let currentStep = 1;
+let responses = {};
+// Track local response count
+let respCount = parseInt(localStorage.getItem('wtp_resp_count') || '0') + 1;
+localStorage.setItem('wtp_resp_count', respCount);
+document.getElementById('resp_count').textContent = String(respCount).padStart(6,'0');
+
+// Store WTP data in localStorage for potential submission
+function getMultiValues(el) {
+  return Array.from(el.querySelectorAll('.selected')).map(b => b.dataset.value);
+}
+
+// Selection handlers
+document.querySelectorAll('[data-field]').forEach(group => {
+  const isMulti = group.dataset.multi === 'true';
+  const isRank = group.dataset.rank === 'true';
+  const fieldName = group.dataset.field;
+  
+  group.querySelectorAll('.choice-btn, .price-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (isMulti) {
+        btn.classList.toggle('selected');
+        responses[fieldName] = getMultiValues(group);
+      } else if (isRank) {
+        // Remove selected from siblings, add to clicked
+        group.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        responses[fieldName] = [btn.dataset.value];
+      } else {
+        group.querySelectorAll('.choice-btn, .price-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        responses[fieldName] = btn.dataset.value;
+      }
+    });
+  });
+});
+
+function validateStep(step) {
+  const stepEl = document.getElementById('step' + step);
+  const requiredFields = stepEl.querySelectorAll('[data-field]');
+  for (let f of requiredFields) {
+    const isMulti = f.dataset.multi === 'true';
+    const isRank = f.dataset.rank === 'true';
+    if (isMulti || isRank) {
+      if (!f.querySelector('.selected')) {
+        f.style.borderColor = '#ef4444';
+        setTimeout(() => f.style.borderColor = '', 1500);
+        return false;
+      }
+    } else if (f.tagName === 'SELECT' || f.tagName === 'TEXTAREA') {
+      if (!f.value) {
+        f.style.borderColor = '#ef4444';
+        setTimeout(() => f.style.borderColor = '', 1500);
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function updateProgress(step) {
+  document.getElementById('progress').style.width = (step * 20) + '%';
+}
+
+function nextStep(step) {
+  if (!validateStep(currentStep)) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+  document.getElementById('step' + currentStep).classList.remove('active');
+  currentStep = step;
+  document.getElementById('step' + step).classList.add('active');
+  updateProgress(step);
+  if (step === 5) {
+    saveResponse();
+  }
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function saveResponse() {
+  responses._timestamp = new Date().toISOString();
+  responses._resp_id = respCount;
+  let all = JSON.parse(localStorage.getItem('wtp_survey_responses') || '{}');
+  all[respCount] = responses;
+  localStorage.setItem('wtp_survey_responses', JSON.stringify(all));
+}
+
+// Auto-save draft every 30 seconds
+setInterval(() => {
+  if (currentStep < 5) {
+    localStorage.setItem('wtp_draft', JSON.stringify(responses));
+  }
+}, 30000);
+
+// Restore draft on load
+(function() {
+  const draft = localStorage.getItem('wtp_draft');
+  if (draft) {
+    const d = JSON.parse(draft);
+    Object.keys(d).forEach(key => {
+      if (key.startsWith('_')) return;
+      responses[key] = d[key];
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
