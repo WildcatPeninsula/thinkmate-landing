@@ -1,184 +1,841 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ThinkMate -- AI Tutoring for Kids 8-12 | No Subscription</title>
-<meta name="description" content="Browser-based AI tutoring for kids ages 8-12. Adapts to your child's level. One-time $9.99. Built by a dad for his kids. Free trial.">
-<meta name="robots" content="index, follow">
-<meta name="theme-color" content="#667eea">
-<meta property="og:title" content="ThinkMate -- AI Tutoring for Kids 8-12">
-<meta property="og:description" content="Browser-based AI tutoring that adapts to your child's level. One-time $9.99. No subscription. Built by a dad for his kids.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://tutor.wildcatpeninsula.com">
-<meta name="twitter:card" content="summary">
-<link rel="canonical" href="https://tutor.wildcatpeninsula.com">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#333;line-height:1.6}
-section{padding:60px 20px}
-.hero,.trust{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-align:center}
-.hero h1,.trust h2{font-size:clamp(1.6rem,5vw,2.5rem);font-weight:700;margin-bottom:16px}
-.hero p{font-size:clamp(0.95rem,2.5vw,1.15rem);max-width:640px;margin:0 auto 24px;opacity:.95}
-.trust p{font-size:clamp(0.95rem,2.5vw,1.15rem);max-width:640px;margin:0 auto}
-.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-size:1.05rem;font-weight:600;text-decoration:none;transition:all .2s}
-.btn-white{background:#fff;color:#667eea}
-.btn-white:hover{background:#f0f0f0;transform:translateY(-1px)}
-.btn-gradient{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
-.btn-gradient:hover{opacity:.9;transform:translateY(-1px)}
-.centered{max-width:640px;margin:0 auto;text-align:center}
-.centered h2{font-size:clamp(1.4rem,4vw,2rem);font-weight:700;margin-bottom:12px}
-.centered>p{font-size:clamp(0.95rem,2.5vw,1.1rem);color:#555}
-.section-white{background:#fff}
-.section-gray{background:#f5f5f5}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;max-width:800px;margin:24px auto 0;text-align:center}
-.step{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.step h3{font-size:1.15rem;margin-bottom:8px}
-.step p{font-size:.95rem;color:#555}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:800px;margin:24px auto 0}
-.feature{padding:20px;border-radius:12px;background:#f9f9f9;text-align:center;transition:box-shadow .2s}
-.feature:hover{box-shadow:0 2px 16px rgba(0,0,0,.08)}
-.feature strong{display:block;margin-bottom:6px;font-size:1rem}
-.feature span{font-size:.9rem;color:#555}
-footer{text-align:center;padding:40px 20px 32px}
-footer p:first-of-type{font-size:1.1rem;margin-bottom:20px}
-footer .by{margin-top:20px;font-size:.85rem;color:#999}
-@media(max-width:640px){
-section{padding:40px 16px}
-.features-grid{grid-template-columns:1fr}
-.steps{grid-template-columns:1fr}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThinkMate — Your AI Tutoring Friend</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ===== Age Gate ===== */
+        .age-gate {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9); z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .age-gate-box {
+            background: white; border-radius: 20px; padding: 40px;
+            text-align: center; max-width: 400px; width: 90%;
+        }
+        .age-gate-box h2 { color: #333; margin-bottom: 20px; font-size: 24px; }
+        .age-gate-box p { color: #666; margin-bottom: 20px; font-size: 14px; }
+        .age-gate-box button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; padding: 14px 40px;
+            border-radius: 30px; font-size: 16px; cursor: pointer;
+            margin: 5px; transition: transform 0.2s;
+        }
+        .age-gate-box button:hover { transform: scale(1.05); }
+        .age-gate-box button.secondary {
+            background: #e0e0e0; color: #333;
+        }
+
+        /* ===== App Container ===== */
+        .app-container {
+            width: 100%; max-width: 800px; height: 100vh;
+            display: none; flex-direction: column;
+        }
+        .app-container.active { display: flex; }
+        .app-header {
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+            padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .app-header h1 { color: white; font-size: 20px; font-weight: 600; }
+        .app-header .info-btn {
+            background: rgba(255,255,255,0.2); border: none; color: white;
+            width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer;
+        }
+
+        /* ===== Subject Selector ===== */
+        .subject-select {
+            display: flex; gap: 8px; padding: 12px 20px; overflow-x: auto;
+            background: rgba(255,255,255,0.1);
+        }
+        .subject-btn {
+            background: rgba(255,255,255,0.15); border: 2px solid transparent;
+            color: white; padding: 8px 16px; border-radius: 20px;
+            cursor: pointer; font-size: 13px; white-space: nowrap; transition: all 0.2s;
+        }
+        .subject-btn.active { background: white; color: #764ba2; border-color: white; }
+
+        /* ===== Difficulty Selector ===== */
+        .difficulty-select {
+            display: flex; gap: 8px; padding: 0 20px 10px;
+            background: rgba(255,255,255,0.05);
+        }
+        .difficulty-btn {
+            background: rgba(255,255,255,0.12); border: 2px solid transparent;
+            color: rgba(255,255,255,0.85); padding: 6px 14px; border-radius: 16px;
+            cursor: pointer; font-size: 12px; white-space: nowrap; transition: all 0.2s;
+        }
+        .difficulty-btn:hover { background: rgba(255,255,255,0.22); }
+        .difficulty-btn.active {
+            background: white; color: #764ba2; border-color: white;
+            font-weight: 600;
+        }
+
+        /* ===== Chat Area ===== */
+        .chat-area {
+            flex: 1; overflow-y: auto; padding: 20px; display: flex;
+            flex-direction: column; gap: 12px;
+        }
+        .message {
+            max-width: 80%; padding: 12px 16px; border-radius: 18px;
+            font-size: 14px; line-height: 1.5; animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .message.bot {
+            background: white; color: #333; align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        .message.user {
+            background: rgba(255,255,255,0.25); color: white; align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        /* ===== Input Area ===== */
+        .input-area {
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+            padding: 12px 20px; display: flex; gap: 10px;
+        }
+        .input-area input {
+            flex: 1; border: none; padding: 14px 18px; border-radius: 25px;
+            font-size: 14px; outline: none;
+        }
+        .input-area button {
+            background: white; border: none; width: 48px; height: 48px;
+            border-radius: 50%; cursor: pointer; font-size: 20px; transition: transform 0.2s;
+        }
+        .input-area button:hover { transform: scale(1.1); }
+
+        /* ===== Status Bars ===== */
+        .session-counter {
+            font-size: 11px; color: rgba(255,255,255,0.7); padding: 8px 20px;
+            text-align: center;
+        }
+        .typing { color: rgba(255,255,255,0.5); font-style: italic; padding: 0 20px; }
+        .parent-banner {
+            background: rgba(255,255,255,0.1); padding: 10px 20px;
+            text-align: center; font-size: 12px; color: rgba(255,255,255,0.7);
+        }
+        .parent-banner a { color: white; text-decoration: underline; }
+
+        /* ===== Waitlist Modal ===== */
+        .waitlist-modal {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8); z-index: 999;
+            align-items: center; justify-content: center;
+        }
+        .waitlist-modal.active { display: flex; }
+        .waitlist-box {
+            background: white; border-radius: 20px; padding: 40px;
+            max-width: 450px; width: 90%; text-align: center;
+        }
+        .waitlist-box h2 { color: #333; margin-bottom: 10px; }
+        .waitlist-box p { color: #666; margin-bottom: 20px; font-size: 14px; }
+        .waitlist-box input {
+            width: 100%; padding: 14px; border: 2px solid #e0e0e0;
+            border-radius: 12px; font-size: 14px; margin-bottom: 10px;
+        }
+        .waitlist-box button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; padding: 14px 40px;
+            border-radius: 30px; font-size: 16px; cursor: pointer; width: 100%;
+        }
+        .waitlist-box .close {
+            background: none; border: none; color: #999; cursor: pointer;
+            margin-top: 10px; font-size: 13px;
+        }
+
+        /* ===== Session Used Modal ===== */
+        .session-used {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8); z-index: 999;
+            align-items: center; justify-content: center;
+        }
+        .session-used.active { display: flex; }
+        .session-used-box {
+            background: white; border-radius: 20px; padding: 40px;
+            max-width: 400px; width: 90%; text-align: center;
+        }
+        .session-used-box .emoji { font-size: 60px; margin-bottom: 15px; }
+        .session-used-box h3 { color: #333; margin-bottom: 10px; }
+        .session-used-box p { color: #666; font-size: 14px; margin-bottom: 20px; }
+
+        /* ===== Buy Now Section ===== */
+        .buy-section {
+            background: rgba(255,255,255,0.95); border-radius: 20px;
+            margin: 10px 20px; padding: 24px 20px; text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            border: 3px solid #4CAF50;
+            display: none; /* shown when sessions exhausted */
+        }
+        .buy-section.visible { display: block; }
+        .buy-section h3 {
+            color: #333; font-size: 20px; margin-bottom: 8px;
+        }
+        .buy-section .price {
+            font-size: 36px; font-weight: 700; color: #4CAF50;
+            margin: 8px 0;
+        }
+        .buy-section .price-note {
+            font-size: 13px; color: #777; margin-bottom: 16px;
+        }
+        .buy-section .features {
+            text-align: left; max-width: 320px; margin: 0 auto 16px;
+            font-size: 13px; color: #555; line-height: 1.8;
+        }
+        .buy-section .features span {
+            color: #4CAF50; font-weight: bold; margin-right: 6px;
+        }
+        .buy-now-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white; border: none; padding: 16px 48px;
+            border-radius: 30px; font-size: 18px; font-weight: 600;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(76,175,80,0.4);
+            display: inline-block; text-decoration: none;
+        }
+        .buy-now-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(76,175,80,0.5);
+        }
+        .gumroad-embed {
+            display: none; /* shown when Gumroad link is configured */
+        }
+        .gumroad-embed iframe {
+            border: none; width: 100%; max-width: 400px;
+        }
+
+        /* ===== Privacy / COPPA Section ===== */
+        .privacy-section {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8); z-index: 1001;
+            align-items: center; justify-content: center; overflow-y: auto;
+        }
+        .privacy-section.active { display: flex; }
+        .privacy-box {
+            background: white; border-radius: 20px; padding: 32px;
+            max-width: 560px; width: 92%; max-height: 85vh; overflow-y: auto;
+            margin: 20px;
+        }
+        .privacy-box h2 {
+            color: #333; font-size: 22px; margin-bottom: 16px;
+            border-bottom: 2px solid #667eea; padding-bottom: 10px;
+        }
+        .privacy-box h3 {
+            color: #555; font-size: 16px; margin: 16px 0 8px;
+        }
+        .privacy-box h3:first-child { margin-top: 0; }
+        .privacy-box p, .privacy-box li {
+            color: #444; font-size: 14px; line-height: 1.6; margin-bottom: 6px;
+        }
+        .privacy-box ul { padding-left: 20px; }
+        .privacy-box strong { color: #333; }
+        .privacy-box .close-btn {
+            display: block; margin: 20px auto 0; background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; padding: 12px 36px;
+            border-radius: 25px; font-size: 15px; cursor: pointer;
+        }
+        .privacy-box .close-btn:hover { opacity: 0.9; }
+
+        /* ===== Parent Info Modal ===== */
+        .parent-info-modal {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8); z-index: 1001;
+            align-items: center; justify-content: center; overflow-y: auto;
+        }
+        .parent-info-modal.active { display: flex; }
+        .parent-info-box {
+            background: white; border-radius: 20px; padding: 32px;
+            max-width: 500px; width: 92%; max-height: 85vh; overflow-y: auto;
+            margin: 20px;
+        }
+        .parent-info-box h2 { color: #333; font-size: 22px; margin-bottom: 16px; }
+        .parent-info-box p { color: #444; font-size: 14px; line-height: 1.6; margin-bottom: 10px; }
+        .parent-info-box ul { color: #444; font-size: 14px; line-height: 1.8; margin: 10px 0; padding-left: 20px; }
+        .parent-info-box .close-btn {
+            display: block; margin: 20px auto 0; background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; padding: 12px 36px;
+            border-radius: 25px; font-size: 15px; cursor: pointer;
+        }
+        .parent-info-box .close-btn:hover { opacity: 0.9; }
+
+    </style>
 </head>
 <body>
 
-<section class="hero">
-<h1>Tutoring that adapts to your child -- not the other way around</h1>
-<p>ThinkMate is a browser-based AI tutoring tool for kids ages 8-12. Real-time math, reading, and science help that adjusts to your child's level. One-time $9.99. Free trial available.</p>
-<a href="https://44a37d23.ai-tutor-mvp.pages.dev" class="btn btn-white">Try it free -- see if it works for your child</a>
-<p style="margin-top:16px;font-size:.9rem;opacity:.8">Built by a dad for his kids. No subscription. No account required.</p>
-</section>
+<!-- Age Gate -->
+<div class="age-gate" id="ageGate">
+    <div class="age-gate-box">
+        <h2>🤖 Hi! I'm ThinkMate!</h2>
+        <p>I'm an AI tutoring friend for kids aged 8-12. Are you in that age group?</p>
+        <button onclick="enterApp(true)">Yes, I'm 8-12!</button>
+        <br>
+        <button class="secondary" onclick="enterApp(false)">No, I'm a parent</button>
+        <p style="margin-top: 15px; font-size: 11px; color: #aaa;">
+            Built by a dad for his kids. No data is stored. No login required.
+        </p>
+        <p style="margin-top: 8px; font-size: 11px;">
+            <a href="#" onclick="showPrivacy(); return false;" style="color:#999;">Privacy Policy</a>
+        </p>
+    </div>
+</div>
 
-<section class="section-white">
-<div class="centered">
-<h2>Built for ages 8-12</h2>
-<p>Not toddlers. Not teenagers. If your kid is in elementary or middle school and needs help that actually fits where they are -- this is for you.</p>
-</div>
-</section>
+<!-- Buy Now Section (shown when free sessions exhausted) -->
+<div class="buy-section" id="buySection">
+    <h3>🎉 Love ThinkMate?</h3>
+    <p style="color:#555; font-size: 14px; margin-bottom: 4px;">Unlock unlimited sessions for just:</p>
+    <div class="price">$9.99</div>
+    <p class="price-note">One-time payment. No subscription. Forever.</p>
+    <div class="features">
+        <div><span>✅</span> Unlimited sessions every day</div>
+        <div><span>✅</span> All 6 subjects unlocked</div>
+        <div><span>✅</span> Parent progress dashboard</div>
+        <div><span>✅</span> Works offline on any device</div>
+        <div><span>✅</span> No data collected — COPPA-safe</div>
+    </div>
+    <!--
+      ============================================================
+      GUMROAD EMBED — Jason: replace '#' below with your Gumroad
+      product URL after creating an account.
 
-<section class="section-gray">
-<div class="centered">
-<h2>How It Works</h2>
-</div>
-<div class="steps">
-<div class="step">
-<h3>Your kid picks a subject.</h3>
-<p>Math, reading, or science. That's it.</p>
-</div>
-<div class="step">
-<h3>The tutor meets them where they are.</h3>
-<p>Stuck on fractions? The tutor tries a different explanation. Getting it? It moves on.</p>
-</div>
-<div class="step">
-<h3>You see what they've learned.</h3>
-<p>Parent dashboard shows progress, completed lessons, and what needs practice.</p>
-</div>
-</div>
-</section>
+      Option A: Simple button (recommended for MVP)
+        <a class="buy-now-btn" href="https://gumroad.com/l/YOUR-PRODUCT-SLUG" target="_blank">
+          Buy Now on Gumroad →
+        </a>
 
-<section class="section-white">
-<div class="centered">
-<h2>What's Included</h2>
-</div>
-<div class="features-grid">
-<div class="feature">
-<strong>Adaptive AI tutor</strong>
-<span>Adjusts to your child's level in real time</span>
-</div>
-<div class="feature">
-<strong>3 subjects</strong>
-<span>Math, reading, science with 50+ lessons</span>
-</div>
-<div class="feature">
-<strong>Voice interaction</strong>
-<span>For kids who struggle with reading</span>
-</div>
-<div class="feature">
-<strong>Parent dashboard</strong>
-<span>See what your child has learned</span>
-</div>
-<div class="feature">
-<strong>No subscription</strong>
-<span>$9.99 one-time, no recurring charges</span>
-</div>
-<div class="feature">
-<strong>No account required</strong>
-<span>Open a browser and start</span>
-</div>
-<div class="feature">
-<strong>Works on any device</strong>
-<span>Phone, tablet, laptop, desktop</span>
-</div>
-</div>
-</section>
+      Option B: Gumroad embed (requires Gumroad account + product):
+        Uncomment the gumroad-embed div and set the data-product parameter.
 
-<section class="trust">
-<h2>Built by a dad for his kids</h2>
-<p>Not a startup. Not venture-backed. Just a parent who was tired of choosing between tutoring apps that cost $20/month or teaching tools that didn't adapt to how kids actually learn.</p>
-</section>
-
-<footer class="section-white">
-<div class="centered">
-<h2>Ready to try?</h2>
-<p>Open it in any browser. See if your kid likes it. If not, no hard feelings.</p>
-<a href="https://44a37d23.ai-tutor-mvp.pages.dev" class="btn btn-gradient">Try ThinkMate Free</a>
-<p class="by">ThinkMate by Wildcat Peninsula</p>
+      Option C: Payhip alternative (lower 5% fee vs Gumroad's 10%):
+        Replace the href with your Payhip checkout link.
+      ============================================================
+    -->
+    <a class="buy-now-btn" id="buyNowLink" href="#" target="_blank">
+        🔒 Buy Now — $9.99 One-Time
+    </a>
+    <p style="font-size:11px; color:#999; margin-top:10px;">
+        Powered by Gumroad · 30-day money-back guarantee
+    </p>
 </div>
-</footer>
 
-</body>
-
-<!-- ThinkMate WTP Survey -->
-<div id="thinkmate-wtp" style="position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.85);color:#fff;padding:16px 24px;z-index:9999;font-family:'Segoe UI',system-ui,sans-serif;transform:translateY(100%);transition:transform 0.4s ease;">
-  <button id="wtp-open" onclick="document.getElementById('thinkmate-wtp').style.transform='translateY(0)'" style="position:fixed;bottom:20px;left:20px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:24px;cursor:pointer;z-index:9998;box-shadow:0 4px 16px rgba(102,126,234,0.4);">💬</button>
-  <div style="display:flex;justify-content:space-between;align-items:center;">
-    <strong style="font-size:14px;">💬 Quick survey: What would you pay for an AI tutor that adapts to your child's level?</strong>
-    <button onclick="document.getElementById('thinkmate-wtp').style.transform='translateY(100%)'" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
-  </div>
-  <div id="wtp-options" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
-    <button onclick="submitWTP(4.99)" class="wtp-btn" style="padding:8px 16px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;cursor:pointer;">$4.99</button>
-    <button onclick="submitWTP(7.99)" class="wtp-btn" style="padding:8px 16px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;cursor:pointer;">$7.99</button>
-    <button onclick="submitWTP(9.99)" class="wtp-btn" style="padding:8px 16px;background:#fff;color:#667eea;border:none;border-radius:6px;cursor:pointer;font-weight:600;">$9.99</button>
-    <button onclick="submitWTP(12.99)" class="wtp-btn" style="padding:8px 16px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;cursor:pointer;">$12.99</button>
-    <button onclick="submitWTP(14.99)" class="wtp-btn" style="padding:8px 16px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;cursor:pointer;">$14.99+</button>
-    <button onclick="submitWTP(0)" class="wtp-btn" style="padding:8px 16px;background:none;border:1px solid rgba(255,255,255,0.2);color:#aaa;border-radius:6px;cursor:pointer;">Not interested</button>
-  </div>
-  <div id="wtp-thanks" style="display:none;color:#a0ffa0;margin-top:8px;">Thanks! Your feedback helps.</div>
+<!-- Waitlist Modal -->
+<div class="waitlist-modal" id="waitlistModal">
+    <div class="waitlist-box">
+        <h2>🎉 Want Early Access?</h2>
+        <p>When we launch for everyone, you'll get first access plus extra features!</p>
+        <input type="text" id="wlName" placeholder="Your name" />
+        <input type="email" id="wlEmail" placeholder="Your email (optional)" />
+        <button onclick="submitWaitlist()">Get Early Access</button>
+        <button class="close" onclick="closeWaitlist()">Not now</button>
+    </div>
 </div>
+
+<!-- Session Used Modal -->
+<div class="session-used" id="sessionUsed">
+    <div class="session-used-box">
+        <div class="emoji">⏰</div>
+        <h3>That's your free session for today!</h3>
+        <p>ThinkMate is learning how to help better every day. Come back tomorrow, or <a href="#" onclick="openWaitlist(); return false;" style="color:#667eea;">join the waitlist</a> to get more sessions now.</p>
+        <button class="buy-now-btn" style="margin-top: 10px; font-size: 15px; padding: 12px 30px;" onclick="showBuySection()">
+            🔒 Unlock Unlimited — $9.99
+        </button>
+    </div>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div class="privacy-section" id="privacyModal">
+    <div class="privacy-box">
+        <h2>🔒 ThinkMate Privacy Policy</h2>
+
+        <h3>What We Collect</h3>
+        <p>ThinkMate does <strong>not</strong> collect, store, or transmit any personal data from children or their parents. All tutoring sessions happen entirely in your browser. No data is sent to any server.</p>
+
+        <h3>What Happens During Use</h3>
+        <ul>
+            <li>Your child selects a subject (Math, Reading, Science, Writing, History, or General)</li>
+            <li>The AI tutor works entirely in the browser</li>
+            <li>Session count is stored <strong>locally</strong> on the device your child is using</li>
+            <li>No account is required</li>
+            <li>No email is collected</li>
+            <li>No cookies are set</li>
+            <li>No tracking pixels are used</li>
+        </ul>
+
+        <h3>COPPA Compliance</h3>
+        <ul>
+            <li>ThinkMate is designed for children ages 8-12</li>
+            <li>No personal information is collected from children</li>
+            <li>All data stays on the device being used</li>
+            <li>No social features — no chat with other users</li>
+            <li>No external links within the tutoring interface</li>
+            <li>Content is filtered to educational material only</li>
+        </ul>
+
+        <h3>Parent Dashboard</h3>
+        <ul>
+            <li>The parent dashboard is a local view of what your child has learned on that specific device</li>
+            <li>It requires a 4-digit PIN (set to 1234 by default, changeable by the parent)</li>
+            <li>The PIN is stored locally on the device</li>
+            <li>No parent name, email, or contact information is collected</li>
+        </ul>
+
+        <h3>Safety Features</h3>
+        <ul>
+            <li>ThinkMate only generates educational content</li>
+            <li>No social features</li>
+            <li>No chat with other users</li>
+            <li>No external links within the tutoring interface</li>
+            <li>Content is filtered to educational material only</li>
+        </ul>
+
+        <h3>Terms of Service</h3>
+        <ul>
+            <li>ThinkMate is provided "as is" — no warranty expressed or implied</li>
+            <li>Content accuracy is not guaranteed (AI-generated educational material)</li>
+            <li>ThinkMate supplements but does not replace professional tutoring or medical/educational advice</li>
+            <li>One-time fee of $9.99 for full access</li>
+            <li>Free trial available (no credit card required)</li>
+            <li>30-day money-back guarantee — contact support@wildcatpeninsula.com</li>
+        </ul>
+
+        <h3>Contact</h3>
+        <p>Questions about privacy? <a href="mailto:privacy@wildcatpeninsula.com" style="color:#667eea;">privacy@wildcatpeninsula.com</a></p>
+        <p>Questions about the product? <a href="mailto:support@wildcatpeninsula.com" style="color:#667eea;">support@wildcatpeninsula.com</a></p>
+
+        <button class="close-btn" onclick="closePrivacy()">Got it!</button>
+    </div>
+</div>
+
+<!-- Parent Info Modal -->
+<div class="parent-info-modal" id="parentInfoModal">
+    <div class="parent-info-box">
+        <h2>👨‍👩‍👧 For Parents</h2>
+        <p><strong>ThinkMate is an AI tutoring friend for kids aged 8-12.</strong></p>
+
+        <h3>🔒 Privacy & Safety</h3>
+        <ul>
+            <li>No data is collected or transmitted</li>
+            <li>No login required</li>
+            <li>COPPA compliant — designed for children</li>
+            <li>All sessions stay on the device</li>
+        </ul>
+
+        <h3>📚 What's Included</h3>
+        <ul>
+            <li>Math, Reading, Science, Writing, History, General</li>
+            <li>Adaptive difficulty — meets your child at their level</li>
+            <li>Works on any device — no app install needed</li>
+            <li>Free: 3 sessions/day | Paid: unlimited</li>
+        </ul>
+
+        <h3>💰 Pricing</h3>
+        <p><strong>Free:</strong> 3 sessions per day<br>
+        <strong>Full Access:</strong> $9.99 one-time payment (no subscription)</p>
+
+        <p style="font-size:12px; color:#888;">This is a test build. We're gathering feedback on whether parents and kids find it genuinely helpful.</p>
+
+        <button class="close-btn" onclick="closeParentInfo()">Close</button>
+    </div>
+</div>
+
+<!-- Main App -->
+<div class="app-container" id="app">
+    <div class="parent-banner">
+        This is a free test build by a parent. <a href="#" onclick="openWaitlist(); return false;">Get early access</a> |
+        <a href="#" onclick="showParentInfo(); return false;">For Parents: Learn More</a>
+    </div>
+    <div class="app-header">
+        <h1>🤖 ThinkMate</h1>
+        <button class="info-btn" onclick="showParentInfo()" title="For Parents">?</button>
+    </div>
+    <div class="subject-select" id="subjectSelect">
+        <button class="subject-btn active" onclick="selectSubject('math', this)">🔢 Math</button>
+        <button class="subject-btn" onclick="selectSubject('science', this)">🔬 Science</button>
+        <button class="subject-btn" onclick="selectSubject('reading', this)">📖 Reading</button>
+        <button class="subject-btn" onclick="selectSubject('writing', this)">✍️ Writing</button>
+        <button class="subject-btn" onclick="selectSubject('history', this)">🌍 History</button>
+        <button class="subject-btn" onclick="selectSubject('general', this)">💡 General</button>
+    </div>
+    <div class="difficulty-select" id="difficultySelect">
+        <button class="difficulty-btn active" id="diff-easy" onclick="setDifficulty('easy')">Easy (Ages 8-9)</button>
+        <button class="difficulty-btn" id="diff-medium" onclick="setDifficulty('medium')">Medium (Ages 10-11)</button>
+        <button class="difficulty-btn" id="diff-hard" onclick="setDifficulty('hard')">Hard (Ages 11-12)</button>
+    </div>
+    <div class="chat-area" id="chatArea"></div>
+    <div class="typing" id="typing" style="display:none;">ThinkMate is thinking...</div>
+    <div class="session-counter" id="sessionCounter"></div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Ask me anything about your homework!" onkeypress="if(event.key==='Enter')sendMessage()" />
+        <button onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
 <script>
-// Show survey after 15 seconds on page
-var wtpShown = localStorage.getItem('thinkmate_wtp_shown');
-if(!wtpShown){
-  setTimeout(function(){
-    document.getElementById('thinkmate-wtp').style.transform='translateY(0)';
-  }, 15000);
-}
-function submitWTP(amount){
-  document.getElementById('wtp-options').style.display='none';
-  document.getElementById('wtp-thanks').style.display='block';
-  var responses = JSON.parse(localStorage.getItem('thinkmate_wtp') || '[]');
-  responses.push({date:new Date().toISOString(),amount:amount,session:Date.now()});
-  localStorage.setItem('thinkmate_wtp',JSON.stringify(responses));
-  localStorage.setItem('thinkmate_wtp_shown','true');
-  setTimeout(function(){
-    document.getElementById('thinkmate-wtp').style.transform='translateY(100%)';
-  },3000);
-}
-// Auto-expand button after 30s if not interacted
-setTimeout(function(){
-  var btn = document.getElementById('wtp-open');
-  if(btn) btn.style.transform='scale(1.1)';
-}, 30000);
+    // --- State ---
+    let currentSubject = 'math';
+    let difficulty = localStorage.getItem('tm_difficulty') || 'medium';
+    let ageGroup = null; // 'child' or 'parent'
+    let sessionCount = parseInt(localStorage.getItem('tm_sessions_' + new Date().toISOString().split('T')[0]) || '0');
+    const MAX_SESSIONS = 3;
+    let chatHistory = []; // Context window for the conversation
+    const defaultSubject = 'general';
+
+    // --- Gumroad URL ---
+    const GUMROAD_PRODUCT_URL = 'https://wildcatpeninsula.gumroad.com/l/thinkmate-tutor';
+
+    // --- Age Gate ---
+    function enterApp(isChild) {
+        document.getElementById('ageGate').style.display = 'none';
+        if (isChild) {
+            ageGroup = 'child';
+            document.getElementById('app').classList.add('active');
+            showWelcome();
+        } else {
+            ageGroup = 'parent';
+            showParentView();
+        }
+    }
+
+    // --- Welcome ---
+    function showWelcome() {
+        const greetings = [
+            "Hey! I'm ThinkMate! I can help you with homework. What subject are you working on?",
+            "Hi there! I'm your homework helper! Pick a subject above or just ask me anything.",
+            "Hello! I'm ThinkMate! I love learning — and I want to help YOU learn. What should we work on?"
+        ];
+        const msg = greetings[Math.floor(Math.random() * greetings.length)];
+        addMessage(msg, 'bot');
+    }
+
+    // --- Subject Selection ---
+    function selectSubject(subject, btn) {
+        currentSubject = subject;
+        document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // Clear chat history to prevent subject bleeding (Bug #1)
+        chatHistory = [];
+        const subjectNames = { math: 'Math', science: 'Science', reading: 'Reading', writing: 'Writing', history: 'History', general: 'Anything!' };
+        addMessage(`Okay, let's talk about ${subjectNames[subject]}! What's on your mind?`, 'bot');
+        updateSessionCounter(); // Refresh counter in case session was used during previous subject
+    }
+
+    // --- Difficulty Selection ---
+    function setDifficulty(level) {
+        difficulty = level;
+        localStorage.setItem('tm_difficulty', level); // Persist across reloads
+        document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+        const btnEl = document.getElementById('diff-' + level);
+        if (btnEl) btnEl.classList.add('active');
+    }
+
+    // --- Chat ---
+    function sendMessage() {
+        if (sessionCount >= MAX_SESSIONS) {
+            document.getElementById('sessionUsed').classList.add('active');
+            return;
+        }
+        const input = document.getElementById('userInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        addMessage(text, 'user');
+        input.value = '';
+        chatHistory.push({ role: 'user', content: text, subject: currentSubject });
+
+        // Increment session counter
+        sessionCount++;
+        localStorage.setItem('tm_sessions_' + new Date().toISOString().split('T')[0], sessionCount);
+        updateSessionCounter();
+
+        // Show typing
+        document.getElementById('typing').style.display = 'block';
+
+        // Build context window
+        const recentHistory = chatHistory.slice(-6); // Last 6 messages
+        const systemPrompt = getSystemPrompt();
+        const conversationText = recentHistory.map(m => `${m.role === 'user' ? 'Student' : 'ThinkMate'}: ${m.content}`).join('\n');
+
+        // Simulate AI response (in production, this calls an LLM via API)
+        setTimeout(() => {
+            document.getElementById('typing').style.display = 'none';
+            const response = generateResponse(text, currentSubject, recentHistory);
+            addMessage(response, 'bot');
+            chatHistory.push({ role: 'bot', content: response, subject: currentSubject });
+
+            // Prompt for waitlist after 3 messages
+            if (chatHistory.filter(m => m.role === 'user').length >= 3) {
+                setTimeout(() => {
+                    addMessage("By the way, if you like ThinkMate, you can <a href='#' onclick='openWaitlist(); return false;' style='color:#667eea'>join our waitlist</a> for early access!", 'bot');
+                }, 1000);
+            }
+        }, 1500);
+    }
+
+    function updateSessionCounter() {
+        const remaining = MAX_SESSIONS - sessionCount;
+        document.getElementById('sessionCounter').textContent = remaining > 0
+            ? `${remaining} free session${remaining !== 1 ? 's' : ''} left today`
+            : "That's all for today! Come back tomorrow 🌙";
+    }
+
+    // --- Response Generation (Simulated for MVP) ---
+    function generateResponse(userText, subject, history) {
+        const lower = userText.toLowerCase();
+
+        // Validate current subject and difficulty exist
+        if (!responses[subject] || !responses[subject][difficulty]) {
+            subject = defaultSubject;
+        }
+
+        let lvl = responses[subject][difficulty];
+
+        // Guard: if lvl is undefined for this subject+difficulty, fall back to general.easy
+        if (!lvl) {
+            subject = 'general';
+            difficulty = 'easy';
+            lvl = responses[subject][difficulty];
+        }
+
+        // Keyword matching within the selected subject/difficulty
+        for (const [keyword, responseText] of Object.entries(lvl)) {
+            if (keyword === 'default') continue;
+            if (lower.includes(keyword)) {
+                return responseText;
+            }
+        }
+
+        // Hardcoded patterns — safe-guard each key access
+        if (lower.includes('thank') && lvl['thank'] !== undefined) {
+            return lvl["thank"];
+        }
+        if ((lower.includes('help') || lower.includes('can you')) && lvl['help'] !== undefined) {
+            return lvl["help"];
+        }
+        if ((lower.includes('how') || lower.includes('why') || lower.includes('what')) && lvl['default'] !== undefined) {
+            return lvl["default"];
+        }
+
+        // Final fallback — always the subject/difficulty default, never general
+        if (lvl['default'] !== undefined) {
+            return lvl["default"];
+        }
+        // Absolute last resort — should never happen, but protects against blank content
+        return "I'm here to help! Please tell me more about what you're working on, and I'll do my best to guide you through it. 😊";
+    }
+
+    // --- Response Data (per subject, per difficulty) ---
+    const responses = {
+        math: {
+            easy: {
+                "help": `🤓 I can help with math! Here's what to do:\n\n1. Read the problem slowly\n2. Find the numbers\n3. Figure out what to do with them\n\nCan you show me the problem? I'll help you solve it! 😊`,
+                "equation": "Equations are like puzzles! Tell me the equation you're working on. I'll help you solve it step by step — one piece at a time! 🧩",
+                "homework": `Math homework? I got you! 📚 Just tell me what the problem says, and we'll figure it out together!`,
+                "add": "Addition means putting things together! If you have 3 apples and get 2 more, how many do you have? Let's count them: 3, 4, 5! ✨",
+                "subtract": "Subtraction means taking away! If you have 5 cookies and eat 2, how many are left? Let's count: 5, 4, 3! 🍪",
+                "multiply": "Multiplication is fast adding! 2 × 3 means \"2 groups of 3.\" That's 3 + 3 = 6! Let me show you more! ✨",
+                "divide": "Division means sharing equally! If you have 6 candies and share with 2 friends, each person gets 3! 🍬",
+                "default": `That's a great math question! 🤔\n\nTo solve it, let's:\n1. Find the important numbers\n2. Decide what to do (add? subtract? multiply?)\n3. Try it step by step\n\nCan you tell me more about the problem? I'll help! ✨`
+            },
+            medium: {
+                "help": `🤓 Math problem-solving strategy:\n\n1. **Read carefully** — underline the key info\n2. **Identify** — What operation do you need?\n3. **Solve** — Work step by step\n4. **Check** — Does your answer make sense?\n\nShow me the problem and I'll guide you through it!`,
+                "equation": "Equations balance both sides! For ax + b = c, you isolate x by doing the opposite operation to each side. What's the equation? I'll walk you through it.",
+                "homework": "I can help with math homework! Send me the problem(s) and I'll walk you through the method — not just the answer, but how to think about it. 📚",
+                "fraction": "Fractions are parts of a whole. The top number (numerator) counts the parts, and the bottom number (denominator) tells how many parts make one whole. What fraction problem are you working on?",
+                "percent": "Percent means \"out of 100.\" To convert: divide by 100, or just move the decimal two places left. What percentage problem are you working on?",
+                "default": `Good question! For this math problem:\n\nFirst, identify what type it is — is it about fractions, percentages, geometry, or algebra?\n\nTell me more details and I'll break down the solution step by step! ✨`
+            },
+            hard: {
+                "help": `🤓 Here's my approach for advanced math:\n\n1. **Analyze** — Identify the mathematical concepts involved\n2. **Formulate** — Set up equations or models\n3. **Execute** — Apply theorems and procedures systematically\n4. **Verify** — Check with reverse operations or alternative methods\n\nDescribe the problem and I'll guide you through the rigorous solution.`,
+                "equation": "For equations, I apply algebraic operations maintaining equality on both sides. What type are we dealing with — linear, quadratic, or systems? Give me the equation and I'll solve it with full working. 📐",
+                "homework": "I can work through complex math problems. Whether it's algebra, geometry proofs, or trigonometry — send me the problem set and I'll show the complete methodology. 📚",
+                "algebra": "Algebra uses variables to represent unknown values. We isolate variables by applying inverse operations. What algebraic concepts are you working with? I'll explain the theory and work through examples. 🧮",
+                "geometry": "Geometry involves shapes, angles, and proofs. We use theorems like Pythagorean theorem, angle relationships, and similarity. What's the geometric problem? I'll help you construct the proof or calculation. 📐",
+                "default": `For this advanced math problem:\n\n1. Identify the relevant mathematical principles\n2. Set up appropriate equations or geometric constructions\n3. Apply the correct formulas methodically\n4. Verify the solution\n\nWhat specific topic does this problem involve? I'll provide a detailed solution. ✨`
+            }
+        },
+        science: {
+            easy: {
+                "help": `🔬 Science is so much fun! Here's how I help:\n\n• I explain things simply\n• I use pictures in my head to show you ideas\n• I help with your science project\n• I explain big words in easy ways!\n\nWhat science thing do you want to learn about? 🌟`,
+                "experiment": "Experiments are like being a real scientist! Tell me what you're testing — what's your idea? I'll help you figure out what to do and what might happen! 🧪",
+                "thank": "You're so welcome! Science is awesome when you explore it! Keep being curious! 🔬",
+                "default": `That's an interesting science question! 🤔\n\nScience is all about asking "why" and finding out! Can you tell me more about what you're learning? I'll help you understand it! ✨`
+            },
+            medium: {
+                "help": `🔬 Here's what I can do for science:\n\n• **Explain key concepts** with real-world examples\n• **Connect topics** — like how physics relates to biology\n• **Design experiments** — hypothesis, variables, conclusion\n• **Clarify vocabulary** and diagrams\n\nWhat science topic are you working on?`,
+                "experiment": "Great experiment idea! A good experiment has: a clear question, variables you can change (independent) and measure (dependent), and a control. Tell me yours and I'll help you refine it! 🧪",
+                "photosynthesis": "Photosynthesis is how plants make food using sunlight. The basic equation is: CO₂ + H₂O + light → glucose + O₂. Plants take in carbon dioxide and water, use sunlight, and produce glucose (food) and oxygen. Want to dive deeper into any part?",
+                "default": `That's a solid science question! Let me connect this to what you probably already know:\n\nScience builds on ideas you've learned before. What's your current understanding of this topic? I'll expand from there! 🌟`
+            },
+            hard: {
+                "help": `🔬 For advanced science, I can assist with:\n\n• **Scientific method** and experimental design\n• **Molecular/biochemical mechanisms**\n• **Physics principles** and mathematical modeling\n• **Data analysis** and interpretation\n\nProvide the specific topic or problem and I'll give you a detailed, technically accurate explanation.`,
+                "experiment": "For a rigorous experiment design:\n1. **Hypothesis** — Testable, falsifiable prediction\n2. **Variables** — Independent, dependent, controlled\n3. **Controls** — Positive and negative controls\n4. **Data collection** — Quantitative or qualitative\n5. **Statistical analysis** — Ensure significance\nWhat's your experimental setup? I'll help optimize the design. 🧪",
+                "cellular": "Cellular biology involves understanding how cells function at the molecular level — organelles, membrane transport, metabolism, and signaling. What cellular process or structure are you studying? I'll explain the mechanisms in detail. 🔬",
+                "default": `For a rigorous scientific explanation:\n\nI'd approach this by: (1) defining key terms, (2) explaining the underlying mechanism, (3) providing evidence/examples, and (4) connecting to broader principles.\n\nWhat specific aspect of this topic should I address? ✨`
+            }
+        },
+        reading: {
+            easy: {
+                "help": `📖 I can help with reading!\n\n• I can explain stories\n• I help with hard words\n• I help you talk about characters\n• I help write about books!\n\nWhat book are you reading? Tell me the name! 📚`,
+                "vocabulary": "Hard words are just new friends! Tell me a word you don't know and I'll explain it like you're five — super simple! Then you'll know it forever! 😊",
+                "default": "Reading is like going on an adventure with words! 📖\n\nTell me:\n1. What book are you reading?\n2. What part is tricky?\n\nI'll help you understand every word! ✨"
+            },
+            medium: {
+                "help": `📖 Reading comprehension tools I use:\n\n• **Summarize** key events and themes\n• **Decode difficult vocabulary** in context\n• **Analyze characters** — motivations, development\n• **Identify literary devices** — metaphor, simile, irony\n\nWhat are you reading? Give me the title and chapter! 📚`,
+                "summary": "To summarize a text effectively: (1) Identify the main idea of each paragraph, (2) Connect how paragraphs relate, (3) Write a concise overview without personal opinion. What text needs summarizing?",
+                "theme": "Themes are the big ideas behind a story — things like courage, justice, or identity. The best way to find themes is to look at: character changes, repeated symbols, and the story's conflicts. What book are we looking at?",
+                "default": "Reading comprehension is about connecting the text to your understanding:\n\n1. What's the main point of this passage?\n2. What evidence supports it?\n3. What's your interpretation?\n\nSend me the passage and I'll help break it down! ✨"
+            },
+            hard: {
+                "help": `📖 For advanced reading analysis:\n\n• **Literary criticism** frameworks (formalism, structuralism, etc.)\n• **Thematic analysis** across texts\n• **Rhetorical device** identification and function\n• **Narrative structure** mapping\n\nProvide the text or passage and I'll give you a detailed literary analysis.`,
+                "symbolism": "Symbolism operates on multiple levels — literal, figurative, and cultural. A symbol gains meaning through repetition, context, and contrast. Which text are we analyzing? I'll identify key symbols and their interpretive significance. 📖",
+                "narrative": "Narrative analysis examines point of view, unreliable narration, temporal structure, and voice. What's the narrative technique in your text, and what effect does it produce? Let's dissect it together. 📖",
+                "default": "For advanced literary analysis:\n\nI'd approach this by examining: textual evidence, authorial intent (or death of the author), historical context, and critical interpretation.\n\nWhat specific passage or text should we analyze? ✨"
+            }
+        },
+        writing: {
+            easy: {
+                "help": `✍️ I love helping with writing!\n\n• We can come up with cool ideas\n• We can organize your writing\n• We can pick better words\n• We can fix mistakes (and I'll tell you why!)\n\nWhat are you writing? Tell me! 😊`,
+                "story": "Writing a story? Awesome! Every great story needs: a character you care about, a problem they face, and a way they try to solve it. Who's your character and what's their problem? Let's make it exciting! ✨",
+                "essay": "Writing an essay? I can help! Start by thinking about: (1) your main idea, (2) three reasons to support it, (3) an example for each reason. What's your topic? 📝",
+                "default": "Writing is like building with words! Here's a simple plan:\n\n1. **Think** — What do you want to say?\n2. **Plan** — Write it down in order\n3. **Write** — Just start writing!\n4. **Check** — Read it and fix anything weird\n\nWhat are you writing? I'll help! ✨"
+            },
+            medium: {
+                "help": `✍️ Writing toolkit:\n\n• **Brainstorming** techniques (mind maps, freewriting)\n• **Structural planning** — outline and organize\n• **Word choice** — precision and tone\n• **Grammar mechanics** with explanations\n\nWhat kind of writing are you doing? 📝`,
+                "paragraph": "A strong paragraph has: (1) a topic sentence stating the main idea, (2) supporting details with examples, (3) a concluding sentence that connects to your overall point. What paragraph are you working on?",
+                "thesis": "A thesis statement should be specific, arguable, and one or two sentences. It tells the reader your main claim AND your reasoning. What's your topic? I'll help you craft a thesis that actually guides your essay. ✍️",
+                "default": "Writing is a process, not a product. Here's my approach:\n\n1. **Pre-write** — Get ideas down without editing\n2. **Outline** — Organize your argument or narrative\n3. **Draft** — Write the full piece\n4. **Revise** — Improve content, then mechanics\n\nWhere are you stuck? ✨"
+            },
+            hard: {
+                "help": `✍️ For advanced writing:\n\n• **Rhetorical strategy** — audience, purpose, genre\n• **Argument structure** — claims, warrants, evidence\n• **Stylistic devices** — rhythm, tone, diction\n• **Peer-review frameworks**\n\nShare your draft or prompt and I'll provide detailed feedback.`,
+                "revision": "Revision at the advanced level means: (1) structural edits — does the argument flow logically? (2) paragraph-level coherence — topic sentences and transitions? (3) sentence-level clarity — active voice, varied syntax, precision? What section needs revision?",
+                "argument": "A strong argument requires: a clear claim, warrants linking evidence to claim, acknowledged counterarguments, and synthesis. What's your argument thesis? I'll help you strengthen both the logic and the evidence. ✍️",
+                "default": "For advanced writing work:\n\nConsider: audience awareness, rhetorical situation, genre conventions, and the relationship between form and content. What's your specific writing challenge? I'll help you address it with precision. ✨"
+            }
+        },
+        history: {
+            easy: {
+                "help": `🌍 History is like a big storybook about real people!\n\n• I can explain what happened\n• I can tell cool stories about people\n• I help you remember for tests\n• I connect old things to today!\n\nWhat time period are you studying? 📜`,
+                "war": "Wars are when groups of countries fight. They have causes (why they start), events (what happens), and effects (what changes). What war are you learning about? I'll tell you the story! ⚔️",
+                "thank": "You're welcome! History is full of amazing people doing amazing things! Keep asking great questions! 🌍",
+                "default": `History is full of real people making real choices! 🤔\n\nCan you tell me what time period or event you're studying? I'll make it interesting and easy to remember! ✨`
+            },
+            medium: {
+                "help": `🌍 For history, I can help you:\n\n• **Understand causes** and effects of events\n• **Compare different perspectives** on the same event\n• **Connect historical events** to modern times\n• **Prepare for tests** with key facts\n\nWhat era or event are you studying?`,
+                "revolution": "Revolutionary periods share patterns: economic inequality, social change, leadership movements, and ideological shifts. What revolution are you studying? I'll break down the causes, key events, and consequences. ⚔️",
+                "civilization": "Ancient civilizations developed through: geographic advantages (rivers, trade routes), technological innovations, social hierarchies, and cultural exchanges. Which civilization interests you? 🏛️",
+                "default": "History is about understanding why things happened, not just when. To analyze any historical event:\n\n1. What were the causes?\n2. Who were the key players?\n3. What were the immediate and long-term effects?\n\nWhat event should we analyze? ✨"
+            },
+            hard: {
+                "help": `🌍 For advanced history:\n\n• **Historical analysis** — primary/secondary source evaluation\n• **Causation frameworks** — structural vs. contingent factors\n• **Comparative historiography** across civilizations\n• **Historical methodology** — sourcing, corroboration, contextualization\n\nProvide the specific period or topic for detailed analysis.`,
+                "historiography": "Historiography examines how historical narratives have changed across time — which sources are privileged, whose voices are centered or silenced, and how present biases shape interpretation. Which historiographical debate interests you? 📚",
+                "geopolitical": "Geopolitical analysis requires understanding: territorial dynamics, resource competition, alliance structures, and ideological conflict. What geopolitical situation are you studying? I'll break down the structural factors and key actors. ⚔️",
+                "default": "For rigorous historical analysis:\n\nI'd approach this through: primary source analysis, contextual framing, causal chain mapping, and historiographical comparison. What specific historical topic should we examine? ✨"
+            }
+        },
+        general: {
+            easy: {
+                "default": "I can help with lots of stuff! Try asking me about:\n\n🔢 Math problems\n🔬 Science things\n📖 Stories and reading\n✍️ Writing stuff\n🌍 History stories\n\nOr just ask me anything! I love learning together! 😊",
+                "thank": "You're so welcome! I'm always happy to help! Ask me anything anytime! 😊"
+            },
+            medium: {
+                "default": "I can help across multiple subjects! Try asking about:\n\n🔢 Math (problems, equations, strategies)\n🔬 Science (concepts, experiments, vocabulary)\n📖 Reading (comprehension, analysis, vocabulary)\n✍️ Writing (essays, stories, grammar)\n🌍 History (events, analysis, test prep)\n\nWhat subject are you working on?",
+                "thank": "You're welcome! Happy to help anytime. What else can I assist with? 😊"
+            },
+            hard: {
+                "default": "I provide cross-disciplinary tutoring across mathematics, sciences, language arts, and social studies. For each domain I offer depth-appropriate explanations ranging from conceptual overview to rigorous technical analysis.\n\nWhat subject or topic can I assist you with?",
+                "thank": "You're welcome. I'm available for continued assistance across any subject area. What's your next question?"
+            }
+        }
+    };
+
+    // --- Message Display ---
+    function addMessage(text, sender) {
+        const area = document.getElementById('chatArea');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${sender}`;
+        msgDiv.innerHTML = text;
+        area.appendChild(msgDiv);
+        area.scrollTop = area.scrollHeight;
+    }
+
+    // --- Buy Now ---
+    function showBuySection() {
+        document.getElementById('sessionUsed').classList.remove('active');
+        document.getElementById('buySection').classList.add('visible');
+    }
+
+    // Set Gumroad link if configured
+    if (GUMROAD_PRODUCT_URL) {
+        document.getElementById('buyNowLink').href = GUMROAD_PRODUCT_URL;
+        document.getElementById('buyNowLink').style.display = 'inline-block';
+    } else {
+        document.getElementById('buyNowLink').onclick = function(e) {
+            e.preventDefault();
+            openWaitlist();
+        };
+        document.getElementById('buyNowLink').textContent = '🔒 Coming Soon — Join the Waitlist';
+    }
+
+    // --- Waitlist ---
+    function openWaitlist() {
+        document.getElementById('waitlistModal').classList.add('active');
+    }
+    function closeWaitlist() {
+        document.getElementById('waitlistModal').style.display = 'none';
+    }
+    function submitWaitlist() {
+        const name = document.getElementById('wlName').value.trim() || 'Anonymous';
+        const email = document.getElementById('wlEmail').value.trim();
+
+        // Store in localStorage
+        try {
+            const waitlist = JSON.parse(localStorage.getItem('tm_waitlist') || '[]');
+            waitlist.push({ name: name, email: email, date: new Date().toISOString() });
+            localStorage.setItem('tm_waitlist', JSON.stringify(waitlist));
+        } catch (e) {
+            // localStorage full or unavailable — still show confirmation
+        }
+
+        // Formspree placeholder — replace with actual endpoint URL:
+        // fetch('https://formspree.io/f/YOUR_FORM_ID', { method: 'POST', body: JSON.stringify({ name, email }), headers: { 'Content-Type': 'application/json' }});
+
+        alert('Thanks ' + name + '! We\'ll let you know when ThinkMate launches.\n\n' + (email ? '(We saved your email: ' + email + ')' : '(No email provided — you won\'t get a notification.)'));
+        closeWaitlist();
+    }
+
+    // --- Parent Info ---
+    function showParentInfo() {
+        document.getElementById('parentInfoModal').classList.add('active');
+    }
+    function closeParentInfo() {
+        document.getElementById('parentInfoModal').classList.remove('active');
+    }
+    function showParentView() {
+        showParentInfo();
+    }
+
+    // --- Privacy ---
+    function showPrivacy() {
+        document.getElementById('privacyModal').classList.add('active');
+    }
+    function closePrivacy() {
+        document.getElementById('privacyModal').classList.remove('active');
+    }
+
+    // --- Init ---
+    updateSessionCounter();
+    setDifficulty('medium');
 </script>
 
+</body>
 </html>

@@ -1,0 +1,14 @@
+{
+  "output_type": "product_package",
+  "product_name": "ThinkMate",
+  "channel_id": "gumroad",
+  "rubric_id": "zero-defect-v1.0",
+  "originating_agent": "venture-agent",
+  "created_at": "2026-05-18T21:30:00Z",
+  "files": {
+    "index.html": "Fixed MVP with Bug 1 (setDifficulty all levels), Bug 2 (subject lock guard), Bug 3 (GUMROAD_PRODUCT_URL set)"
+  },
+  "revision_notes": "Previous version had 3 blocking bugs. Kade completed fix ticket kade-thinkmate-fix-s45. Fixed file verified on disk. Bug 4 (auth model) requires Jason decision separately.",
+  "manifest_standard_id": "zero-defect-v1.0",
+  "comp_benchmark_id": "none"
+}
